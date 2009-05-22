@@ -8,3 +8,6 @@ class Raid(models.Model):
 	guaranteed_spots = models.ManyToManyField(User, related_name="guaranteed_spots")
 	standby_spots = models.ManyToManyField(User, related_name="standby_spots")
 	raid_leader = models.ForeignKey(User)
+
+	def __unicode__(self):
+		return self.title
