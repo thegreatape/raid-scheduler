@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+import random
 
 class Registration(models.Model):
 	player = models.ForeignKey(User)
@@ -24,3 +25,12 @@ class Raid(models.Model):
 
 	def is_registered(self, player):
 		return len(self.registered.filter(player=player))
+
+	def roll(self):
+		for role in ("tank", "healer", "dps"):
+			registered = self.registered.filter(role=role)
+			spots = range(1, registered.count()+1)
+			random.shuffle(spots)
+			for registration in zip(registered, spots):
+				registration[0].number = registration[1]
+				registration[0].save()

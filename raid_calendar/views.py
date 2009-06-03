@@ -43,6 +43,7 @@ def view_raid(request, raid_id):
 		form = RegistrationForm()
 	return render_to_response('raid/view.djhtml',
 							  {'raid': raid,
+							   'registered': raid.registered.all().order_by("role", "number"),
 							   'registration_form': form,
 							   'is_registered': raid.is_registered(request.user)},
 							  context_instance=RequestContext(request))

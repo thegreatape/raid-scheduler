@@ -4,11 +4,12 @@
 <div>Time: {{raid.date}} Server Time</div>
 <div>Spots for this raid will be automatically rolled for on: </div>
 <h2>Currently Registered</h2>
-<table border="1"><tr><th>Player</th><th>Role</th></tr>
-{% for registration in raid.registered.all %}
+<table border="1"><tr><th>Player</th><th>Role</th><th>Number</th></tr>
+{% for registration in registered %}
   <tr>
 	<td>{{registration.player.username}}</td>
 	<td>{{registration.role}}</td>
+	<td>{{registration.number}}</td>
   </tr>{% endfor %}
 </table>
 {% if not is_registered %}

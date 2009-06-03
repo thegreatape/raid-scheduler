@@ -1,0 +1,6 @@
+== TODO == 
+
+Before Release
+- add number of players to Raid
+- add number of spots for tanks, dps, healers to Raid
+- handle on standby requests
