@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Raid Calendar</title>
+  <style type="text/css">
+	body {font-family: Arial,Helvetica,sans-serif; background: #fff;}
+	.content-wrap {margin-left: 200px; padding: 20px; background: #eee; height: 600px; width: 50%;}
+	.user-util {float:right}
+	.cal-wrap { width: 700px; position:relative;}
+	.cal-cell { width: 90px; height: 90px; float: left; margin: 2px; padding: 2px; border: 1px solid #ddd; background:#fff}
+  </style>
+</head>
+<body>
+  <div class="content-wrap">
+	<div class="user-util">
+	  {% if user.is_authenticated %}
+	  Welcome Back, {{ user.username }}
+	  {% else %} 
+	  	  <a href="login">Login</a> | <a href="signup">Sign Up</a> 
+	  {% endif %}
+	</div>
+  {% block content %}
+  {% endblock %}
+   </div>
+  </div>
+</body>
+</html>

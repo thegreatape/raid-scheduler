@@ -1,0 +1,22 @@
+{% extends "home/wrap.djhtml" %}
+{% block content %}
+<h1>{{raid.title}}</h1>
+<div>Time: {{raid.date}} Server Time</div>
+<div>Spots for this raid will be automatically rolled for on: </div>
+<h2>Currently Registered</h2>
+<table border="1"><tr><th>Player</th><th>Role</th></tr>
+{% for registration in raid.registered.all %}
+  <tr>
+	<td>{{registration.player.username}}</td>
+	<td>{{registration.role}}</td>
+  </tr>{% endfor %}
+</table>
+{% if not is_registered %}
+<h2>Sign Up</h2>
+<form action="" method="POST">
+  {{ registration_form.as_p }}
+  <input type="Submit" value="Register"/>
+</form>
+{% endif %}
+{% endblock %}
+

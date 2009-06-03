@@ -1,19 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-  <title>Raid Calendar</title>
-  <style type="text/css">
-	body {font-family: Arial,Helvetica,sans-serif; background: #eee;}
-	.cal-wrap { width: 700px;}
-	.cal-cell { width: 90px; height: 90px; float: left; margin: 2px; padding: 2px; border: 1px solid #ddd; background:#fff}
-  </style>
-</head>
-<body>
-  <h1>{{date}}</h1>
-  <div class="cal-wrap">
-  {% for i in days %}
-    <span class="cal-cell">{{i|default:""}}</span>
+{% extends "home/wrap.djhtml" %}
+{% block content %}
+<h1>{{date}}</h1>
+<div class="cal-wrap">
+  {% for date in days %}
+  <span class="cal-cell">
+	{{date.day|default:""}}<br/>
+	{% if date.raids %}
+	{% for raid in date.raids %}<a href="{{raid.url}}">{{ raid.title }}</a>{% endfor %}<br/>
+	{% endif %}
+  </span>
   {% endfor %}
-  </div>
-</body>
-</html>
+{% endblock %}
+

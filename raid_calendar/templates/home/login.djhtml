@@ -1,0 +1,9 @@
+{% extends "home/wrap.djhtml" %}
+{% block content %}
+<h1>Login</h1>
+<form action="login" method="POST">
+  {{form.as_p}}
+  <input type="submit" value="Login"/>
+</form>
+{% endblock %}
+
