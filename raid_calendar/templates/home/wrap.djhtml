@@ -8,6 +8,7 @@
 	.user-util {float:right}
 	.cal-wrap { width: 700px; position:relative;}
 	.cal-cell { width: 90px; height: 90px; float: left; margin: 2px; padding: 2px; border: 1px solid #ddd; background:#fff}
+	.reg-table { float: left; margin-right: 30px;}
   </style>
 </head>
 <body>

@@ -2,16 +2,28 @@
 {% block content %}
 <h1>{{raid.title}}</h1>
 <div>Time: {{raid.date}} Server Time</div>
-<div>Spots for this raid will be automatically rolled for on: </div>
+<div>Spots for this raid will be automatically rolled for on: {{raid.roll_date|date:"D d M h:s"}}</div>
 <h2>Currently Registered</h2>
-<table border="1"><tr><th>Player</th><th>Role</th><th>Number</th></tr>
-{% for registration in registered %}
+{% if not raid.registered.all %}
+ No one has signed up yet! :-O
+{% else %}
+{% for role,registrations in registered.items %}
+<div class="reg-table">
+  <h3>{{role}}</h3>
+  <table>
+	{% for reg in registrations %}
   <tr>
-	<td>{{registration.player.username}}</td>
-	<td>{{registration.role}}</td>
-	<td>{{registration.number}}</td>
-  </tr>{% endfor %}
+	<td>{{reg.player.username}}</td>
+	{% if raid.has_rolled %}
+	<td>{{reg.number}}</td>
+	{% endif %}
+  </tr> 
+  {% endfor %}
 </table>
+</div>
+{% endfor %}
+{% endif %}
+<br/>
 {% if not is_registered %}
 <h2>Sign Up</h2>
 <form action="" method="POST">

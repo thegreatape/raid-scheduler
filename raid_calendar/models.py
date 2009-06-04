@@ -16,6 +16,9 @@ class Raid(models.Model):
 	roll_date = models.DateTimeField('time when spots will be automatically rolled for')
 	registered = models.ManyToManyField(Registration, related_name="registered_raiders", blank=True)
 	raid_leader = models.ForeignKey(User)
+	dps_spots = models.IntegerField()
+	tank_spots = models.IntegerField()
+	healer_spots = models.IntegerField()
 
 	def __unicode__(self):
 		return self.title
@@ -25,6 +28,9 @@ class Raid(models.Model):
 
 	def is_registered(self, player):
 		return len(self.registered.filter(player=player))
+
+	def has_rolled(self):
+		return
 
 	def roll(self):
 		for role in ("tank", "healer", "dps"):

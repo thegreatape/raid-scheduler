@@ -41,13 +41,19 @@ def view_raid(request, raid_id):
 			raid.save()
 	else:
 		form = RegistrationForm()
+
+	registered = {
+		'DPS': raid.registered.filter(role="dps").order_by("number"),
+		'Tanks': raid.registered.filter(role="tank").order_by("number"),
+		'Healers': raid.registered.filter(role="healer").order_by("number"),
+		}
+	print registered
 	return render_to_response('raid/view.djhtml',
 							  {'raid': raid,
-							   'registered': raid.registered.all().order_by("role", "number"),
+							   'registered': registered,
 							   'registration_form': form,
 							   'is_registered': raid.is_registered(request.user)},
 							  context_instance=RequestContext(request))
-
 
 def create_user(request):
 	if request.method == 'POST':
