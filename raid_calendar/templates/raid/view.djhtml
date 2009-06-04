@@ -1,9 +1,8 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
 <h1>{{raid.title}}</h1>
-<div>Time: {{raid.date}} Server Time</div>
-<div>Spots for this raid will be automatically rolled for on: {{raid.roll_date|date:"D d M h:s"}}</div>
-<h2>Currently Registered</h2>
+<div>This raid will start {{raid.date}} Server Time</div>
+<div>Spots for {{raid.dps_spots}} DPS, {{raid.tank_spots}} tanks, and {{raid.healer_spots}} healers will be automatically rolled for on {{raid.roll_date}}</div>
 {% if not raid.registered.all %}
  No one has signed up yet! :-O
 {% else %}
@@ -11,13 +10,15 @@
 <div class="reg-table">
   <h3>{{role}}</h3>
   <table>
-	{% for reg in registrations %}
-  <tr>
+	{% for group_name,regs in registrations %}
+	{% for reg in regs %}
+	<tr class="{{group_name}}">
 	<td>{{reg.player.username}}</td>
 	{% if raid.has_rolled %}
 	<td>{{reg.number}}</td>
 	{% endif %}
   </tr> 
+  {% endfor %}
   {% endfor %}
 </table>
 </div>

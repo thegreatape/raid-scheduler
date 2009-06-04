@@ -30,7 +30,7 @@ class Raid(models.Model):
 		return len(self.registered.filter(player=player))
 
 	def has_rolled(self):
-		return
+		return True
 
 	def roll(self):
 		for role in ("tank", "healer", "dps"):
