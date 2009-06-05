@@ -32,21 +32,19 @@ def view_raid(request, raid_id):
 	raid = get_object_or_404(Raid, id=raid_id)
 	if request.method == 'POST':
 		form = RegistrationForm(request.POST)
-		print request.POST
 		if form.is_valid():
 			registration = Registration(player=request.user,
+										raid=raid,
 										role=form.cleaned_data['role'])
 			registration.save()
-			raid.registered.add(registration)
-			raid.save()
 	else:
 		form = RegistrationForm()
 
-	dps = raid.registered.filter(role="dps").order_by("number")
-	tanks = raid.registered.filter(role="tank").order_by("number")
-	healers = raid.registered.filter(role="healer").order_by("number")
+	dps = Registration.objects.filter(raid=raid,role="dps").order_by("number")
+	tanks = Registration.objects.filter(raid=raid,role="tank").order_by("number")
+	healers = Registration.objects.filter(raid=raid,role="healer").order_by("number")
 
-	if raid.has_rolled():
+	if raid.has_rolled:
 		registered = {
 			'DPS': (('guaranteed', dps[:raid.dps_spots]), ('standby', dps[raid.dps_spots:])),
 			'Tanks': (('guaranteed', tanks[:raid.tank_spots]), ('standby', tanks[raid.tank_spots:])),
@@ -62,7 +60,8 @@ def view_raid(request, raid_id):
 							  {'raid': raid,
 							   'registered': registered,
 							   'registration_form': form,
-							   'is_registered': raid.is_registered(request.user)},
+							   'is_registered': raid.is_registered(request.user)
+							   },
 							  context_instance=RequestContext(request))
 
 def create_user(request):

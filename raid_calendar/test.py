@@ -32,7 +32,7 @@ def make_test_registrations():
 	raid = Raid.objects.all()[0]
 	for player in User.objects.all():
 		registration = Registration(player=player,
+									raid=raid,
 									role=['dps', 'tank', 'healer'][random.randrange(3)])
 		registration.save()
-		raid.registered.add(registration)
-	raid.save()
+	#raid.save()

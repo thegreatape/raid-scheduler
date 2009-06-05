@@ -10,13 +10,14 @@
 	.cal-cell { width: 90px; height: 90px; float: left; margin: 2px; padding: 2px; border: 1px solid #ddd; background:#fff}
 	.reg-table { float: left; margin-right: 30px;}
 	.guaranteed { color: green;} 
+	.content { margin-bottom: 8px;}
   </style>
 </head>
 <body>
   <div class="content-wrap">
 	<div class="user-util">
 	  {% if user.is_authenticated %}
-	  Welcome Back, {{ user.username }}
+	  Welcome Back, {{ user.username }} | <a href="/">Home</a>
 	  {% else %} 
 	  	  <a href="login">Login</a> | <a href="signup">Sign Up</a> 
 	  {% endif %}

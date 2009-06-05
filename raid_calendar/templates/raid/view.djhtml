@@ -1,10 +1,13 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
 <h1>{{raid.title}}</h1>
-<div>This raid will start {{raid.date}} Server Time</div>
-<div>Spots for {{raid.dps_spots}} DPS, {{raid.tank_spots}} tanks, and {{raid.healer_spots}} healers will be automatically rolled for on {{raid.roll_date}}</div>
+<div class="content">{{raid.description}}</div>
+<div class="content">
+ This raid will start <b>{{raid.date|date:"l j/n"}} at {{raid.date|date:"P"}}</b> server time. 
+  Spots for {{raid.dps_spots}} DPS, {{raid.tank_spots}} tanks, and {{raid.healer_spots}} healers 
+  {% if raid.has_rolled %} were {% else %} will be {% endif %} automatically rolled for on <b>{{raid.roll_date|date:"l j/n"}} at {{raid.roll_date|date:"P"}}.</b></div>
 {% if not raid.registered.all %}
- No one has signed up yet! :-O
+<div class="content">No one has signed up yet! :-O</div>
 {% else %}
 {% for role,registrations in registered.items %}
 <div class="reg-table">
