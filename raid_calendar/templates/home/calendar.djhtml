@@ -1,6 +1,7 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
-<h1>{{date}}</h1>
+<h1>Drama Llama Raid Calendar</h1>
+<h2>{{date}}</h2>
 <div class="cal-wrap">
   {% for date in days %}
   <span class="cal-cell">

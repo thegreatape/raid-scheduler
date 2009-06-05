@@ -1,8 +1,4 @@
 == TODO == 
 
 Before Release
-- add number of players to Raid
-- handle on standby requests
-
 - fix accounts page redirect on login
-- fix ugly timestamps
