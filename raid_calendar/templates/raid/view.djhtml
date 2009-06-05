@@ -6,6 +6,10 @@
  This raid will start <b>{{raid.date|date:"l j/n"}} at {{raid.date|date:"P"}}</b> server time. 
   Spots for {{raid.dps_spots}} DPS, {{raid.tank_spots}} tanks, and {{raid.healer_spots}} healers 
   {% if raid.has_rolled %} were {% else %} will be {% endif %} automatically rolled for on <b>{{raid.roll_date|date:"l j/n"}} at {{raid.roll_date|date:"P"}}.</b></div>
+<div class="content">
+  <span class="guaranteed">Players in this color are guaranteed spots if they show up on time.</span> 
+  <span class="req-standby">Players in this color have requested to be put on the standby list.</span> 
+</div>
 {% if not raid.registered.all %}
 <div class="content">No one has signed up yet! :-O</div>
 {% else %}
@@ -15,7 +19,7 @@
   <table>
 	{% for group_name,regs in registrations %}
 	{% for reg in regs %}
-	<tr class="{{group_name}}">
+	<tr class="{% if reg.standby %}req-standby{% else %}{{group_name}}{% endif %}">
 	<td>{{reg.player.username}}</td>
 	{% if raid.has_rolled %}
 	<td>{{reg.number}}</td>

@@ -36,6 +36,8 @@ def view_raid(request, raid_id):
 			registration = Registration(player=request.user,
 										raid=raid,
 										role=form.cleaned_data['role'])
+			if 'standby' in cleaned_data:
+				registration.standby = form.cleaned_date['standby'] 
 			registration.save()
 	else:
 		form = RegistrationForm()

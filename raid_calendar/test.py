@@ -30,9 +30,11 @@ def make_test_users():
 
 def make_test_registrations():
 	raid = Raid.objects.all()[0]
+	raid.registered.clear()
+	raid.has_rolled = False
 	for player in User.objects.all():
 		registration = Registration(player=player,
 									raid=raid,
+									standby=not random.randrange(10),
 									role=['dps', 'tank', 'healer'][random.randrange(3)])
 		registration.save()
-	#raid.save()

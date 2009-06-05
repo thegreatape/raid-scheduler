@@ -23,19 +23,32 @@ class Raid(models.Model):
 		return len(self.registered.filter(username=player.username))
 
 	def roll(self):
-		for role in ("tank", "healer", "dps"):
-			registered = self.registered.filter(role=role)
-			spots = range(1, registered.count()+1)
+		for role,spots in (("tank", self.tank_spots), ("healer", self.healer_spots), ("dps", self.dps_spots)):
+			# determine guaranteed spots -> those not on standby will be first
+			registered = Registration.objects.filter(raid=self,role=role).order_by('standby')
+			self._assign(registered, 1, spots+1)
+
+			# shuffle in standbys with those who didn't get guaranteed spots
+			standbys = Registration.objects.filter(raid=self,role=role,number=None)
+			self._assign(standbys, spots+1, spots+standbys.count()+1)
+		self.has_rolled = True
+		self.save()
+			
+	def _assign(self, registered, start, end):
+		if registered.count():
+			spots = range(start, end)
 			random.shuffle(spots)
 			for registration in zip(registered, spots):
 				registration[0].number = registration[1]
 				registration[0].save()
+
 
 class Registration(models.Model):
 	raid = models.ForeignKey(Raid)
 	player = models.ForeignKey(User)
 	role = models.CharField(max_length=256)
 	number = models.IntegerField(blank=True, null=True)
+	standby = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.player.username
