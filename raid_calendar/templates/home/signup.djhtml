@@ -1,7 +1,7 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
 <h1>Create New User</h1>
-<form action="signup" method="POST">
+<form action="{% url raid_calendar.views.create_user %}" method="POST">
   {{form.as_p}}
   <input type="submit" value="Signup"/>
 </form>

@@ -34,7 +34,7 @@
 <br/>
 {% if not is_registered %}
 <h2>Sign Up</h2>
-<form action="" method="POST">
+<form action="{% url raid_calendar.views.view_raid raid.id %}" method="POST">
   {{ registration_form.as_p }}
   <input type="Submit" value="Register"/>
 </form>

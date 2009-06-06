@@ -7,7 +7,7 @@
   <span class="cal-cell">
 	{{date.day|default:""}}<br/>
 	{% if date.raids %}
-	{% for raid in date.raids %}<a href="{{raid.url}}">{{ raid.title }}</a>{% endfor %}<br/>
+	{% for raid in date.raids %}<a href="{% url view_raid raid.id %}">{{ raid.title }}</a>{% endfor %}<br/>
 	{% endif %}
   </span>
   {% endfor %}

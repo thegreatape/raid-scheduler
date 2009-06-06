@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.core.urlresolvers import reverse
 
 from calendar import Calendar
 from forms import RegistrationForm
@@ -71,7 +72,7 @@ def create_user(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			User.objects.create_user(form.cleaned_data['username'], '', form.cleaned_data['password1'])
-			return HttpResponseRedirect('/')
+			return HttpResponseRedirect(reverse('home'))
 		else:
 			return render_to_response('home/signup.djhtml', {'form': form}) 
 	else:
@@ -79,4 +80,4 @@ def create_user(request):
 
 def logout_user(request):
 	logout(request)
-	return HttpResponseRedirect('/')
+	return HttpResponseRedirect(reverse('home'))

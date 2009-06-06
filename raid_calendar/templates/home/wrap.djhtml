@@ -18,14 +18,17 @@
   <div class="content-wrap">
 	<div class="user-util">
 	  {% if user.is_authenticated %}
-	  Welcome Back, {{ user.username }} | <a href="/">Home</a>
+	  Welcome Back, {{ user.username }} | 
+	  <a href="{% url home %}">Home</a> |
+	  <a href="{% url logout_user %}">Logout</a> 
 	  {% else %} 
-	  	  <a href="login">Login</a> | <a href="signup">Sign Up</a> 
+	  	  <a href="{% url django.contrib.auth.views.login %}">Login</a> | 
+		  <a href="{% url create_user %}">Sign Up</a> 
 	  {% endif %}
 	</div>
   {% block content %}
   {% endblock %}
    </div>
-  </div>
+  </div> 
 </body>
 </html>
