@@ -1,6 +1,11 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
 <h1>Drama Llama Raid Calendar</h1>
+
+<div class="date-nav">
+  <a href="{% url home %}?{{nav.back.qstring}}">&lt;&lt; {{nav.back.label}}</a> | 
+  <a href="{% url home %}?{{nav.forward.qstring}}">{{nav.forward.label}} &gt;&gt;</a>
+</div>
 <h2>{{date}}</h2>
 <div class="cal-wrap">
   {% for date in days %}
