@@ -53,3 +53,8 @@ class Registration(models.Model):
 	def __unicode__(self):
 		return self.player.username
 
+class UserProfile(models.Model):
+	user = models.ForeignKey(User, unique=True)
+
+	def total_registrations(self):
+		return Registration.objects.filter(player=self.user).count()

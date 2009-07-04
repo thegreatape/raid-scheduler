@@ -11,7 +11,7 @@ import calendar
 from calendar import Calendar
 from forms import RegistrationForm
 from datetime import date, datetime, timedelta
-from raid_calendar.models import Raid, Registration
+from raid_calendar.models import Raid, Registration, UserProfile
 
 def home(request):
 	today = date.today()
@@ -94,3 +94,9 @@ def create_user(request):
 def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('home'))
+
+def users(request):
+	return render_to_response('home/users.djhtml',
+				  { 'users': User.objects.all().extra(select={'lower_username': 'lower(username)'}).order_by('lower_username')
+				    },
+				  context_instance=RequestContext(request))
