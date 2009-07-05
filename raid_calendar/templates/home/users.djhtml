@@ -4,7 +4,11 @@
 <table>
 <tr><th>User</th><th>Total Registrations</th><th>Current Weight</th></tr>
 {% for user in users %}
-<tr><td>{{user.username}}</td><td>{{user.get_profile.total_registrations}}</td><td></td></tr>
+<tr>
+  <td>{{user.username}}</td>
+  <td>{{user.get_profile.total_registrations}}</td>
+  <td>{{user.get_profile.weight}}</td>
+</tr>
 {% endfor %}
 {% endblock %}
 

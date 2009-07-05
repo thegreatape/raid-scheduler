@@ -48,13 +48,16 @@ class Registration(models.Model):
 	player = models.ForeignKey(User)
 	role = models.CharField(max_length=256)
 	number = models.IntegerField(blank=True, null=True)
+	applied_weight = models.IntegerField(blank=True, null=True)
 	standby = models.BooleanField(default=False)
+	won = models.BooleanField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.player.username
 
 class UserProfile(models.Model):
 	user = models.ForeignKey(User, unique=True)
+	weight = models.IntegerField(default=0)
 
 	def total_registrations(self):
 		return Registration.objects.filter(player=self.user).count()

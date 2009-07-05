@@ -4,17 +4,36 @@ from django.db import models
 from raid_scheduler.raid_calendar.models import *
 
 class Migration:
-    
+
     def forwards(self, orm):
-	for user in orm['auth.User'].objects.all():
-            if not orm.UserProfile.objects.filter(user=user).count():
-                profile = orm.UserProfile(user_id=user.id)
+        for raid in orm.Raid.objects.all().order_by('date'):
+            for registration in orm.Registration.objects.filter(raid=raid):
+                profile = orm.UserProfile.objects.get(user=registration.player)
+                if registration.role == 'dps' and registration.number > raid.dps_spots:
+                    registration.won = False
+                    if not registration.standby:
+                        profile.weight += 20
+                elif registration.role == 'tank' and registration.number > raid.tank_spots:
+                    registration.won = False
+                    if not registration.standby:
+                        profile.weight += 20
+                elif registration.role == 'healer' and registration.number > raid.healer_spots:
+                    registration.won = False
+                    if not registration.standby:
+                        profile.weight += 20
+                else:
+                    registration.won = True
+                    profile.weight = 0
+                registration.save()
                 profile.save()
-                        
     
     def backwards(self, orm):
-        orm['auth.User'].objects.all().delete()
-        
+        for registration in orm.Registration.objects.all():
+            registration.won = None
+            registration.save()
+        for profile in orm.UserProfile.objects.all():
+            profile.weight = 0
+            profile.save()
     
     models = {
         'auth.message': {
@@ -63,15 +82,18 @@ class Migration:
         },
         'raid_calendar.userprofile': {
             'id': ('models.AutoField', [], {'primary_key': 'True'}),
-            'user': ('models.ForeignKey', ['User'], {'unique': 'True'})
+            'user': ('models.ForeignKey', ['User'], {'unique': 'True'}),
+            'weight': ('models.IntegerField', [], {'default': '0'})
         },
         'raid_calendar.registration': {
+            'applied_weight': ('models.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('models.AutoField', [], {'primary_key': 'True'}),
             'number': ('models.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'player': ('models.ForeignKey', ['User'], {}),
             'raid': ('models.ForeignKey', ['Raid'], {}),
             'role': ('models.CharField', [], {'max_length': '256'}),
-            'standby': ('models.BooleanField', [], {'default': 'False'})
+            'standby': ('models.BooleanField', [], {'default': 'False'}),
+            'won': ('models.BooleanField', [], {'null': 'True', 'blank': 'True'})
         },
         'auth.group': {
             'id': ('models.AutoField', [], {'primary_key': 'True'}),
