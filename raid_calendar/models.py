@@ -23,25 +23,52 @@ class Raid(models.Model):
 		return len(self.registered.filter(username=player.username))
 
 	def roll(self):
+		for registration in Registration.objects.filter(raid=self):
+			# roll 1-100 for everyone signed up
+			registration.number = random.randrange(100)
+			# if player has culumlative weight, apply it 
+			weight = registration.player.get_profile().weight
+			registration.number += weight
+			registration.applied_weight = weight
+			registration.save()
+		
 		for role,spots in (("tank", self.tank_spots), ("healer", self.healer_spots), ("dps", self.dps_spots)):
-			# determine guaranteed spots -> those not on standby will be first
-			registered = Registration.objects.filter(raid=self,role=role).order_by('standby')
-			self._assign(registered, 1, spots+1)
+			registered = Registration.objects.filter(raid=self,role=role,standby=False).order_by('-number')
+			num_won = 0
+			for registration in registered:
+				player = registration.player
+				profile = player.get_profile()
+				if num_won < spots:
+					registration.won = True
+					profile.weight = 0
+					num_won += 1
+					print "%s won for %s, setting weight to 0" % (player, role)
+				else:
+					registration.won = False
+					profile.weight += 20
+					print "%s lost for %s, adding 20 to weight (now %i)" % (player, role, profile.weight)
+				registration.save()
+				player.save()
+				profile.save()
 
-			# shuffle in standbys with those who didn't get guaranteed spots
-			standbys = Registration.objects.filter(raid=self,role=role,number=None)
-			self._assign(standbys, spots+1, spots+standbys.count()+1)
+			# couldn't fill in won spots with non-standbys, give spots to standbys
+			standbys = Registration.objects.filter(raid=self,role=role,standby=True).order_by('-number')
+			for standby in standbys:
+				player = standby.player
+				if num_won < spots:
+					standby.won = True
+					print "%s won for %s on standby (weight unchanged)" % (player, role)
+					num_won += 1
+				else:
+					standby.won = False
+					print "%s is chillin' on standby for %s" % (player, role)
+				standby.save()
+					
+			while num_won < spots:
+				num_won += 1
+
 		self.has_rolled = True
 		self.save()
-			
-	def _assign(self, registered, start, end):
-		if registered.count():
-			spots = range(start, end)
-			random.shuffle(spots)
-			for registration in zip(registered, spots):
-				registration[0].number = registration[1]
-				registration[0].save()
-
 
 class Registration(models.Model):
 	raid = models.ForeignKey(Raid)
@@ -55,9 +82,15 @@ class Registration(models.Model):
 	def __unicode__(self):
 		return self.player.username
 
+	def raw_number(self):
+		return self.number - self.applied_weight
+
 class UserProfile(models.Model):
 	user = models.ForeignKey(User, unique=True)
 	weight = models.IntegerField(default=0)
 
 	def total_registrations(self):
 		return Registration.objects.filter(player=self.user).count()
+
+	def total_won(self):
+		return Registration.objects.filter(player=self.user,won=True).count()
