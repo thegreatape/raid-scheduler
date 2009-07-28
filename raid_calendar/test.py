@@ -34,8 +34,8 @@ def make_test_registrations():
 	raid.has_rolled = False
 	for player in User.objects.all():
 		registration = Registration(player=player,
-									raid=raid,
-									standby=not random.randrange(10),
-									role=['dps', 'tank', 'healer'][random.randrange(3)])
+					    raid=raid,
+					    standby=not random.randrange(10),
+					    role=['dps', 'tank', 'healer'][random.randrange(3)])
 		registration.save()
 	raid.save()

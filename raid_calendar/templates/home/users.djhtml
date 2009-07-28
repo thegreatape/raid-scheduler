@@ -1,14 +1,21 @@
 {% extends "home/wrap.djhtml" %}
 {% block content %}
 <h1>Users</h1>
-<table>
-<tr><th>User</th><th>Total Registrations</th><th>Current Weight</th></tr>
-{% for user in users %}
-<tr>
-  <td>{{user.username}}</td>
-  <td>{{user.get_profile.total_registrations}}</td>
-  <td>{{user.get_profile.weight}}</td>
-</tr>
-{% endfor %}
+<table class="user-table">
+  <tr>
+    <th>User</th>
+    <th>Total Registrations</th>
+    <th>Total Won</th>
+    <th>Current Weight</th>
+  </tr>
+  {% for user in users %}
+  <tr class="{% cycle '' 'alt' %}">
+    <td>{{user.username}}</td>
+    <td>{{user.get_profile.total_registrations}}</td>
+    <td>{{user.get_profile.total_won}}</td>
+    <td>{{user.get_profile.weight}}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}
 

@@ -13,19 +13,22 @@
 {% if not raid.registered.all %}
 <div class="content">No one has signed up yet! :-O</div>
 {% else %}
-{% for role,registrations in registered.items %}
+{% for role,registrations in registered.iteritems %}
 <div class="reg-table">
   <h3>{{role}}</h3>
   <table>
-	{% for group_name,regs in registrations %}
-	{% for reg in regs %}
-	<tr class="{% if reg.standby %}req-standby{% else %}{{group_name}}{% endif %}">
+	{% for reg in registrations %}
+	<tr class="{% if reg.standby %}req-standby{% else %}{% if reg.won %}guaranteed{% endif %}{% endif %}">
 	<td>{{reg.player.username}}</td>
 	{% if raid.has_rolled %}
-	<td>{{reg.number}}</td>
+	<td>
+	  {{reg.number}} 
+	  {% if reg.applied_weight %}
+	  ({{reg.raw_number}}+{{reg.applied_weight}})
+	  {% endif %}
+	</td>
 	{% endif %}
   </tr> 
-  {% endfor %}
   {% endfor %}
 </table>
 </div>

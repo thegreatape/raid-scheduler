@@ -14,6 +14,10 @@
 	.req-standby {color: blue; }
 	.content { margin-bottom: 8px;}
 	.date-nav {margin-right: 95px; float:right;}
+	.user-table { text-align: center; border-collapse: collapse;}
+	.user-table tr.alt { background: white; }
+	.user-table th {padding-right: 10px;}
+	h2 { clear:both;}
   </style>
 </head>
 <body>
@@ -22,6 +26,7 @@
 	  {% if user.is_authenticated %}
 	  Welcome Back, {{ user.username }} | 
 	  <a href="{% url home %}">Home</a> |
+	  <a href="{% url users %}">Users</a> |
 	  <a href="{% url logout_user %}">Logout</a> 
 	  {% else %} 
 	  	  <a href="{% url django.contrib.auth.views.login %}">Login</a> | 

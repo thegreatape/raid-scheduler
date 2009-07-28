@@ -56,22 +56,14 @@ def view_raid(request, raid_id):
 	else:
 		form = RegistrationForm()
 
-	dps = Registration.objects.filter(raid=raid,role="dps").order_by("number")
-	tanks = Registration.objects.filter(raid=raid,role="tank").order_by("number")
-	healers = Registration.objects.filter(raid=raid,role="healer").order_by("number")
+	dps = Registration.objects.filter(raid=raid,role="dps").order_by("-won", "-number")
+	tanks = Registration.objects.filter(raid=raid,role="tank").order_by("-won", "-number")
+	healers = Registration.objects.filter(raid=raid,role="healer").order_by("-won", "-number")
 
-	if raid.has_rolled:
-		registered = {
-			'DPS': (('guaranteed', dps[:raid.dps_spots]), ('standby', dps[raid.dps_spots:])),
-			'Tanks': (('guaranteed', tanks[:raid.tank_spots]), ('standby', tanks[raid.tank_spots:])),
-			'Healers': (('guaranteed', healers[:raid.healer_spots]), ('standby', healers[raid.healer_spots:])),
-			}
-	else:
-		registered = {
-			'DPS': (('registered', dps),),
-			'Tanks': (('registered', tanks),),
-			'Healers': (('registered', healers),)
-			}
+	registered = { 'DPS': dps,
+		       'Tanks': tanks,
+		       'Healers': healers
+		       }
 	return render_to_response('raid/view.djhtml',
 				  {'raid': raid,
 				   'registered': registered,
