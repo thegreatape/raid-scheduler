@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -76,7 +76,13 @@ def create_user(request):
 	if request.method == 'POST':
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
-			User.objects.create_user(form.cleaned_data['username'], '', form.cleaned_data['password1'])
+			user = User.objects.create_user(form.cleaned_data['username'], '', form.cleaned_data['password1'])
+			profile = UserProfile(user=user)
+			profile.save()
+			raider_group = Group.objects.get(name='Raider')
+			user.groups.add(raider_group)
+			user.is_staff = True
+			user.save()
 			return HttpResponseRedirect(reverse('home'))
 		else:
 			return render_to_response('home/signup.djhtml', {'form': form}) 
