@@ -16,7 +16,7 @@ from raid_calendar.models import Raid, Registration, UserProfile
 def home(request):
 	today = date.today()
 	if request.method == 'GET' and 'year' in request.GET or 'month' in request.GET:
-		today = date(year=int(request.GET.get('year', today.year)), month=int(request.GET.get('month', today.month)), day=today.day)
+		today = date(year=int(request.GET.get('year', today.year)), month=int(request.GET.get('month', today.month)), day=1)
 
 	days_in_month = calendar.mdays[today.month]
 	raids = Raid.objects.filter(date__gte=datetime(today.year, today.month, 1)).exclude(date__gte=datetime(today.year, today.month, days_in_month))
@@ -33,7 +33,7 @@ def home(request):
 			event["raids"].append(raid)
 		else:
 			event["raids"] = [raid]
-	one_month = timedelta(days=days_in_month)
+	one_month = timedelta(days=(days_in_month - today.day +1))
 	forward = today + one_month
 	back = today - one_month
 	qstring = lambda d: 'month=%i&year=%i' % (d.month, d.year)
