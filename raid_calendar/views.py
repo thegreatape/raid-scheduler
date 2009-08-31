@@ -22,8 +22,13 @@ def home(request):
 	raids = Raid.objects.filter(date__gte=datetime(today.year, today.month, 1)).exclude(date__gte=datetime(today.year, today.month, days_in_month))
 	days = [{'day': x} for x in sum(Calendar().monthdayscalendar(today.year, today.month), [])]
 
+	def index(seq, f):
+		"""Return the index of the first item in seq where f(item) == True."""
+		for index in (i for i in xrange(len(seq)) if f(seq[i])):
+			return index
+
 	for raid in raids:
-		event = days[days.index({'day': raid.date.day})]
+		event = days[index(days, lambda x: x['day'] == raid.date.day)]
 		if "raids" in event:
 			event["raids"].append(raid)
 		else:
