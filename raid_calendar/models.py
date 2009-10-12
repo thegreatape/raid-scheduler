@@ -77,7 +77,7 @@ class Registration(models.Model):
 	number = models.IntegerField(blank=True, null=True)
 	applied_weight = models.IntegerField(blank=True, null=True)
 	standby = models.BooleanField(default=False)
-	won = models.BooleanField(blank=True, null=True)
+	won = models.NullBooleanField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.player.username
