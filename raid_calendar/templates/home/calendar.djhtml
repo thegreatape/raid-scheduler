@@ -8,6 +8,13 @@
 </div>
 <h2>{{date}}</h2>
 <div class="cal-wrap">
+  <span class="cal-cell header">Sun</span>
+  <span class="cal-cell header">Mon</span>
+  <span class="cal-cell header">Tue</span>
+  <span class="cal-cell header">Wed</span>
+  <span class="cal-cell header">Thu</span>
+  <span class="cal-cell header">Fri</span>
+  <span class="cal-cell header">Sat</span>
   {% for date in days %}
   <span class="cal-cell">
 	{{date.day|default:""}}<br/>
@@ -16,5 +23,6 @@
 	{% endif %}
   </span>
   {% endfor %}
+<div style="clear:both"></div>
 {% endblock %}
 

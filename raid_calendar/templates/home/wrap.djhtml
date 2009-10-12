@@ -5,10 +5,11 @@
   <style type="text/css">
 	body {font-family: Arial,Helvetica,sans-serif; background: #fff;}
 	a {color: #0066cc; text-decoration: none;}
-	.content-wrap {margin-left: 200px; padding: 20px; background: #eee; height: 650px; width: 63%; margin:0 auto;}
+	.content-wrap {margin-left: 200px; padding: 20px; background: #eee; width: 61%; margin:0 auto;}
 	.user-util {float:right}
 	.cal-wrap { width: 700px; position:relative;}
 	.cal-cell { width: 90px; height: 90px; float: left; margin: 2px; padding: 2px; border: 1px solid #ddd; background:#fff}
+	.header {height: auto;text-align: center; font-weight: bold;}
 	.reg-table { float: left; margin-right: 30px;}
 	.guaranteed { color: green;} 
 	.req-standby {color: blue; }

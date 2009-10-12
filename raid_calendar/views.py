@@ -20,7 +20,7 @@ def home(request):
 
 	days_in_month = calendar.mdays[today.month]
 	raids = Raid.objects.filter(date__gte=datetime(today.year, today.month, 1)).exclude(date__gte=datetime(today.year, today.month, days_in_month))
-	days = [{'day': x} for x in sum(Calendar().monthdayscalendar(today.year, today.month), [])]
+	days = [{'day': x} for x in sum(Calendar(6).monthdayscalendar(today.year, today.month), [])]
 
 	def index(seq, f):
 		"""Return the index of the first item in seq where f(item) == True."""
