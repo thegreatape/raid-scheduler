@@ -23,6 +23,5 @@
 	{% endif %}
   </span>
   {% endfor %}
-<div style="clear:both"></div>
 {% endblock %}
 
