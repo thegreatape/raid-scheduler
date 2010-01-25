@@ -19,7 +19,7 @@ def home(request):
 		today = date(year=int(request.GET.get('year', today.year)), month=int(request.GET.get('month', today.month)), day=1)
 
 	days_in_month = calendar.mdays[today.month]
-	raids = Raid.objects.filter(date__gte=datetime(today.year, today.month, 1)).exclude(date__gte=datetime(today.year, today.month, days_in_month))
+	raids = Raid.objects.filter(date__gte=datetime(today.year, today.month, 1)).exclude(date__gt=datetime(today.year, today.month, days_in_month, 23, 59, 59))
 	days = [{'day': x} for x in sum(Calendar(6).monthdayscalendar(today.year, today.month), [])]
 
 	def index(seq, f):
