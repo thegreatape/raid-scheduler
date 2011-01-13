@@ -13,6 +13,14 @@ from forms import RegistrationForm
 from datetime import date, datetime, timedelta
 from raid_calendar.models import Raid, Registration, UserProfile
 
+class UserCreationFormExtended(UserCreationForm): 
+    def __init__(self, *args, **kwargs): 
+        super(UserCreationFormExtended, self).__init__(*args, **kwargs) 
+    class Meta: 
+        model = User 
+        fields = ('username', 'email') 
+
+
 def home(request):
 	today = date.today()
 	if request.method == 'GET' and 'year' in request.GET or 'month' in request.GET:
@@ -79,9 +87,9 @@ def view_raid(request, raid_id):
 
 def create_user(request):
 	if request.method == 'POST':
-		form = UserCreationForm(request.POST)
+		form = UserCreationFormExtended(request.POST)
 		if form.is_valid():
-			user = User.objects.create_user(form.cleaned_data['username'], '', form.cleaned_data['password1'])
+			user = User.objects.create_user(form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password1'])
 			profile = UserProfile(user=user)
 			profile.save()
 			raider_group = Group.objects.get(name='Raider')
@@ -92,7 +100,7 @@ def create_user(request):
 		else:
 			return render_to_response('home/signup.djhtml', {'form': form}) 
 	else:
-		return render_to_response('home/signup.djhtml', {'form': UserCreationForm()}, context_instance=RequestContext(request))
+		return render_to_response('home/signup.djhtml', {'form': UserCreationFormExtended()}, context_instance=RequestContext(request))
 
 def logout_user(request):
 	logout(request)
