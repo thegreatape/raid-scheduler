@@ -10,7 +10,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = '/Users/thomasmayfield/Code/db_raid_scheduler.db'    # Or path to database file if using sqlite3.
+DATABASE_NAME = '/Users/thomas/Code/db_raid_scheduler.db'    # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -69,7 +69,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/Users/thomasmayfield/Code/raid_scheduler/raid_calendar/templates'
+	'/Users/thomas/Code/raid_scheduler/raid_calendar/templates'
 )
 
 INSTALLED_APPS = (
@@ -77,9 +77,13 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-	'django.contrib.admin',
-	'django.contrib.admindocs',
-	'raid_scheduler.raid_calendar'
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'raid_scheduler.raid_calendar',
+    'south'
 )
 
 LOGIN_URL = 'login'
+AUTH_PROFILE_MODULE = 'raid_calendar.UserProfile'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25

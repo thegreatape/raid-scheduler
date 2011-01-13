@@ -31,6 +31,7 @@
 	  <a href="{% url logout_user %}">Logout</a> 
 	  {% else %} 
 	  	  <a href="{% url django.contrib.auth.views.login %}">Login</a> | 
+          <a href="{% url django.contrib.auth.views.password_reset %}">Forgot Password?</a> | 
 		  <a href="{% url create_user %}">Sign Up</a> 
 	  {% endif %}
 	</div>
