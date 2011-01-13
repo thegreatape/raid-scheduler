@@ -87,3 +87,4 @@ LOGIN_URL = 'login'
 AUTH_PROFILE_MODULE = 'raid_calendar.UserProfile'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
+SERVER_NAME = 'Drama Llama Raid Scheduler'
